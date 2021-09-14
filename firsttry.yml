@@ -1,0 +1,24 @@
+---
+- name: automatic first installation
+  hosts: jenkins
+  tasks:
+    - name: error
+      block:
+       - name: shell script
+         shell: /home/ubuntu/error.sh
+         become: yes
+
+      rescue:
+       - name: run error message
+         shell: chmod 777 /home/ubuntu/error.sh
+         become: yes
+         register: cmd_result
+      #failed_when: " 'No package matching' in cmd_result.stdout "
+
+       - name: debug
+         debug:
+          msg: " no package found '{{ cmd_result }}' "
+      always:
+       - name: run shell
+         shell: /home/ubuntu/error.sh
+         become: yes
