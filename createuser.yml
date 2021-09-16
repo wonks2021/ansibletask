@@ -3,6 +3,8 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: creating jenkins usererror
+    - name: creatin jenkins usererror
       become: true
-      shell: useradd jenkins
+      user:
+       name: ex2
+       password: pass
