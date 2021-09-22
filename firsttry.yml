@@ -5,4 +5,35 @@
   tasks:
     - name: creating jenkins usererror
       become: true
-      shell: useradd jenkins
+      shell: useradd jenkins3
+      notify: 
+      - restart ssh
+
+    - name: editing sudoers
+      become: yes
+      become_user: root
+      lineinfile:
+        path: /etc/sudoers
+        line: "jenkins1 ALL=(ALL) NOPASSWD: ALL"
+        state: present
+      notify:
+      - restart ssh 
+
+  handlers:
+      - name: restart ssh
+        become: yes
+        become_user: root
+        service: 
+         name: ssh 
+         state: restarted
+        
+    #- name: restart sshd
+    #  become_user: true
+    #  command: service ssh restart
+      #become: yes
+      #become_user: root
+      #service: 
+      #  name: sshd 
+      #  state: restarted
+     # notify:
+     # - restart ssh

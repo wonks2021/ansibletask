@@ -1,0 +1,19 @@
+---
+- name: Ansible apt module examples
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Ansible apt to install multiple packages
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+        state: present 
+      with_items:
+        - 'nginx'
+        - 'npm'
+        - 'ansible'
+        - 'git'
+      register: aptout 
+      
+    - debug:
+       msg: "{{ aptout }}"     

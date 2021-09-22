@@ -1,0 +1,16 @@
+---
+- name: automatic first installation
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Check that user exists
+      block:
+       - name: dash check
+         shell: "grep dash /etc/passwd"
+         ignore_errors: yes
+         become: yes
+         register: userexist
+    
+      rescue:
+       - name: Create user
+         shell: useradd dash

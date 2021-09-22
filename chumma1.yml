@@ -1,0 +1,18 @@
+---
+- name: automatic first installation
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Check that user exists
+      shell: "grep abi /etc/passwd"
+      ignore_errors: yes
+      become: yes
+      register: userexist
+    - name: printing variable
+      debug:
+        msg: "{{userexist.stdout}}"
+   
+    - name: user add
+      shell: useradd abi
+      become: yes
+      when: userexist.stdout | length < 1
