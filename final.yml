@@ -1,0 +1,39 @@
+---
+- name: automatic first installation
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Check that user exists
+      shell: "grep jenkins /etc/passwd"
+      ignore_errors: yes
+      become: yes
+      register: userexist
+      
+    - name: user status output
+      debug:
+        msg: "{{userexist.stdout}}"
+   
+    - name: user add
+      shell: useradd jenkins
+      become: yes
+      when: userexist.stdout | length < 1
+      notify: 
+      - restart ssh
+
+    - name: editing sudoers
+      become: yes
+      become_user: root
+      lineinfile:
+        path: /etc/sudoers
+        line: "jenkins ALL=(ALL) NOPASSWD: ALL"
+        state: present
+      notify:
+      - restart ssh 
+
+  handlers:
+      - name: restart ssh
+        become: yes
+        become_user: root
+        service: 
+         name: ssh 
+         state: restarted
