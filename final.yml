@@ -27,6 +27,21 @@
         state: present
       notify:
       - restart ssh
+      
+    - name: Ansible apt to install multiple packages
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+        state: present 
+      with_items:
+         - 'nginx'
+         - 'npm'
+         # - 'ansible'
+         # - 'git'
+      register: aptout 
+      
+    - debug:
+         msg: "{{ aptout }}"
 
   handlers:
       - name: restart ssh
@@ -35,18 +50,3 @@
         service: 
          name: ssh 
          state: restarted
-         
-      - name: Ansible apt to install multiple packages
-        apt:
-          name: "{{ item }}"
-          update_cache: yes
-          state: present 
-        with_items:
-          - 'nginx'
-          - 'npm'
-          - 'ansible'
-          - 'git'
-        register: aptout 
-      
-      - debug:
-         msg: "{{ aptout }}"
