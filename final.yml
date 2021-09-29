@@ -17,8 +17,6 @@
       shell: useradd jenkins
       become: yes
       when: userexist.stdout | length < 1
-      notify: 
-      - restart ssh
 
     - name: editing sudoers
       become: yes
@@ -28,7 +26,7 @@
         line: "jenkins ALL=(ALL) NOPASSWD: ALL"
         state: present
       notify:
-      - restart ssh 
+      - restart ssh
 
   handlers:
       - name: restart ssh
@@ -37,3 +35,18 @@
         service: 
          name: ssh 
          state: restarted
+         
+      - name: Ansible apt to install multiple packages
+        apt:
+          name: "{{ item }}"
+          update_cache: yes
+          state: present 
+        with_items:
+          - 'nginx'
+          - 'npm'
+          - 'ansible'
+          - 'git'
+        register: aptout 
+      
+      - debug:
+         msg: "{{ aptout }}"
