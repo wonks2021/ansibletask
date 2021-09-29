@@ -27,17 +27,22 @@
         state: present
       notify:
       - restart ssh
-      
+
+    - name: Pause for 2 minutes to restart ssh
+      pause:
+         minutes: 2  
+
     - name: Ansible apt to install multiple packages
       apt:
         name: "{{ item }}"
         update_cache: yes
-        state: present 
+        state: present
       with_items:
          - 'nginx'
          - 'npm'
-         # - 'ansible'
-         # - 'git'
+         - 'ansible'
+         - 'git'
+      become: yes
       register: aptout 
       
     - debug:
