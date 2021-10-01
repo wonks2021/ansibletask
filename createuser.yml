@@ -1,7 +1,5 @@
 ---
 - name: automatic first installation
-  hosts: localhost
-  connection: local
   tasks:
     - name: creatin jenkins usererror
       become: true
