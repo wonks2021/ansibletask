@@ -1,6 +1,6 @@
 ---
 - name: automatic first installation
-  hosts: freshinstal
+  hosts: fresh
   tasks:
     - name: creatin jenkins usererror
       become: true
