@@ -1,8 +1,9 @@
 ---
 - name: automatic first installation
+  hosts: freshinstal
   tasks:
     - name: creatin jenkins usererror
       become: true
       user:
-       name: ex2
+       name: githhh
        password: pass
