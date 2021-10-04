@@ -3,8 +3,12 @@ pipeline {
 stages {
 stage('executeyaml file') {
       steps {
-            ansiblePlaybook inventory: 'dev.inv', playbook: ' createuser.yml '
-       }
+        sh '''
+          ansible --version
+          ansible-playbook --version
+          ansible-galaxy --version
+        '''
+      }
     }
-}
+  }
 }
