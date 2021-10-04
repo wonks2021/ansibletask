@@ -3,11 +3,7 @@ pipeline {
 stages {
 stage('executeyaml file') {
       steps {
-        sh '''
-          ansible --version
-          ansible-playbook --version
-          ansible-galaxy --version
-        '''
+        sh "pwd"
       }
     }
   }
