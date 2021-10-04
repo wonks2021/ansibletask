@@ -5,7 +5,7 @@ stages {
             steps {
                 script {
                 
-               def tfHome = tool name: 'Ansible'
+               def tfHome = tool name: 'AAA'
                 env.PATH = "${tfHome}:${env.PATH}"
                  sh 'ansible --version'
                     
