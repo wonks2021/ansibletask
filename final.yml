@@ -1,10 +1,9 @@
 ---
 - name: automatic first installation
-  hosts: localhost
-  connection: local
+  hosts: freshint
   tasks:
     - name: Check that user exists
-      shell: "grep jenkins /etc/passwd"
+      shell: "grep jenkins1 /etc/passwd"
       ignore_errors: yes
       become: yes
       register: userexist
@@ -14,7 +13,7 @@
         msg: "{{userexist.stdout}}"
    
     - name: user add
-      shell: useradd jenkins
+      shell: useradd jenkins1
       become: yes
       when: userexist.stdout | length < 1
 
@@ -23,14 +22,14 @@
       become_user: root
       lineinfile:
         path: /etc/sudoers
-        line: "jenkins ALL=(ALL) NOPASSWD: ALL"
+        line: "jenkins1 ALL=(ALL) NOPASSWD: ALL"
         state: present
       notify:
       - restart ssh
 
-    - name: Pause for 2 minutes to restart ssh
+    - name: Pause for 15 seconds to restart ssh
       pause:
-         minutes: 2  
+         seconds: 1
 
     - name: Ansible apt to install multiple packages
       apt:
