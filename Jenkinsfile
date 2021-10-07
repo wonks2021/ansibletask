@@ -15,7 +15,7 @@ stages {
         
 stage('executeyaml file') {
       steps {
-        sh "ansiblePlaybook installation: 'AAA', inventory: 'dev.inv', playbook: 'createuser.yml'"
+        sh "ansiblePlaybook installation: 'AAA', playbook: 'createuser.yml'"
       }
     }
   }
